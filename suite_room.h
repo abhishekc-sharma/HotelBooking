@@ -5,7 +5,7 @@
 
 class suite_room : public room {
 public:
-	suite_room() : room(5000.00) {}
+	suite_room();
 private:
 	int num_beds;
 	bool air_cond;

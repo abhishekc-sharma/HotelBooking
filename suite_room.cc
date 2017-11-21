@@ -1,9 +1,8 @@
-#include "standard_room.h"
-#include <iostream>
+#include "suite_room.h"
 
 using namespace std;
 
-standard_room::standard_room() {
+suite_room::suite_room() : room(5000.00) {
 	num_beds = 2;
 	air_cond = true;
 	mini_fridge = true;

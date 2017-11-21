@@ -5,12 +5,12 @@
 
 class standard_room : public room {
 public:
-	standard_room() : room(1000.00) {}
+	standard_room();
 private:
 	int num_beds;
 	bool air_cond;
 	bool mini_fridge;
-	bool prem_view; 
+	bool prem_view;
 };
 
 #endif

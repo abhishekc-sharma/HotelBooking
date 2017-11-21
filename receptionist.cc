@@ -224,7 +224,9 @@ int receptionist::make_booking(guest *gst, std::pair<int, int> dates, room_type 
 			sqlite3_prepare(p_db, query.c_str(), query.size(), &insert_bookingstable_stmt, NULL);
 			sqlite3_step(insert_bookingstable_stmt);
 			sqlite3_finalize(insert_bookingstable_stmt);
-			return sqlite3_last_insert_rowid(p_db);
+			int bkng_no =  sqlite3_last_insert_rowid(p_db);
+			bookings[bkng_no] = new booking(type, st, gst, dates);
+			return bkng_no;
 		}
 	}
 
@@ -264,7 +266,7 @@ void receptionist::display() {
 
 	for(map<int,booking *>::iterator i = bookings.begin(); i!=bookings.end(); i++)
 	{
-		*bkng = i->second[i->first];
+		bkng = i->second;
 		cout << "-------------------------------------------\n";
 		cout << "\nGuest Name: " << bkng->p_guest->name;
 		cout << "\nGuest contact number: " << bkng->p_guest->contact_num;
