@@ -95,7 +95,8 @@ int main () {
 		} else if(choice == 3) {
 
 			//Display all the bookings
-			
+			cout << "Displaying all current bookings:\n ";
+			r->display();
 		} else {
 
 		}

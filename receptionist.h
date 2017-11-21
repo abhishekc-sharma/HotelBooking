@@ -22,6 +22,7 @@ public:
 	static receptionist *get_instance();
 	int make_booking(guest *gst, std::pair<int, int> dates, room_type type);
 	void cancel_booking(int bkng);
+	void display();
 	~receptionist();
 private:
 	receptionist();

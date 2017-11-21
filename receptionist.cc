@@ -1,5 +1,7 @@
 #include <algorithm>
 #include "booking.h"
+#include "guest.h"
+#include <map>
 #include "receptionist.h"
 #include "room_state.h"
 #include "room.h"
@@ -255,4 +257,26 @@ void receptionist::cancel_booking(int bkng_no) {
 	sqlite3_step(delete_bookingstable_stmt);
 	sqlite3_finalize(delete_bookingstable_stmt);
 	delete bkng;
+}
+
+void receptionist::display() {
+	booking *bkng;
+
+	for(map<int,booking *>::iterator i = bookings.begin(); i!=bookings.end(); i++)
+	{
+		*bkng = i->second[i->first];
+		cout << "-------------------------------------------\n";
+		cout << "\nGuest Name: " << bkng->p_guest->name;
+		cout << "\nGuest contact number: " << bkng->p_guest->contact_num;
+		cout << "\nRoom type: ";
+		if(bkng->type == receptionist::room_type::R_STANDARD) {
+			cout << "Standard Room";
+		} else if(bkng->type == receptionist::room_type::R_DELUXE) {
+			cout << "Deluxe Room";
+		} else if(bkng->type == receptionist::room_type::R_SUITE) {
+			cout << "Suite Room";
+		}
+		cout << "\nNumber of Days of Stay: " << (bkng->dates.second - bkng->dates.first);
+		cout << "\nTotal Cost: " << bkng->get_cost();
+	}
 }
