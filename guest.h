@@ -3,10 +3,9 @@
 
 #include <string>
 
-class guest {
+struct guest {
 public:
-	guest(std::string name, std::string contact_num) : name(name), contact_num(contact_num) {}	
-private:
+	guest(std::string name, std::string contact_num) : name(name), contact_num(contact_num) {}
 	std::string name;
 	std::string contact_num;
 };

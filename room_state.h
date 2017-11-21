@@ -8,6 +8,7 @@ struct room_state {
 	int room_no;
 
 	room_state(int rno) : room_no(rno) {}
+	room_state(int rno, int availability) : room_no(rno), availability(availability) {}
 };
 
 #endif

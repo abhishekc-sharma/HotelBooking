@@ -30,3 +30,7 @@ void room::mark_available(room_state *st, std::pair<int, int> dates) {
 		st->availability.reset(i);
 	}
 }
+
+float room::get_cost() {
+	return cost_per_night;
+}
