@@ -15,13 +15,13 @@ int main () {
 	receptionist *r = receptionist::get_instance();
 
 	do {
-		int choice;
+		int choice, offset_start, offset_end;
 		cout << "1.Booking\n2.Cancel\n";
 		cin >> choice;
 		if(choice == 1) {
 			string name;
-			string date_start, date_end; 
-			char room_choice; 
+			string date_start, date_end;
+			char room_choice;
 			receptionist::room_type room;
 
 			cout << "Please enter your name: ";
@@ -40,14 +40,14 @@ int main () {
 				case '$': room = receptionist::room_type::R_SUITE;
 					break;
 				default: cout << "Wtf ???";
-						 continue;	
+						 continue;
 			}
 
 			guest *g = new guest(name, "9611481691");
 			pair <int,int> dates(offset_start ,offset_end);
 
-			booking *b = r->make_booking(g, dates, room);
-			cout << &b;
+			int b = r->make_booking(g, dates, room);
+			cout << b;
 
 		} else if(choice == 2) {
 			cout << "no cancelling, sucks to be you";

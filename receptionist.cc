@@ -1,6 +1,5 @@
 #include <algorithm>
 #include "booking.h"
-#include <ctime>
 #include "receptionist.h"
 #include "room_state.h"
 #include "room.h"
@@ -23,13 +22,12 @@ receptionist *receptionist::get_instance() {
 }
 
 receptionist::receptionist() {
-	this->last_reference_time = time(NULL);
 
 	// room flyweight intrinsic states
 	this->p_standard_room = new standard_room();
 	this->p_deluxe_room = new deluxe_room();
 	this->p_suite_room = new suite_room();
-	int room_no = 0;
+	booking_no = 0;
 
 	// room flyweight extrinsic states
 	for(int i = 0; i < 4; i++) {
@@ -48,7 +46,7 @@ receptionist::receptionist() {
 	}
 }
 
-booking *receptionist::make_booking(guest *gst, std::pair<int, int> dates, room_type type) {
+int receptionist::make_booking(guest *gst, std::pair<int, int> dates, room_type type) {
 	vector<room_state *> required_states;
 	room *required_room;
 
@@ -66,17 +64,22 @@ booking *receptionist::make_booking(guest *gst, std::pair<int, int> dates, room_
 	for(room_state *st : required_states) {
 		if(required_room->check_available(st, dates)) {
 			required_room->mark_unavailable(st, dates);
-			booking *bkng = new booking(type, st, gst, dates);
-			this->bookings.push_back(bkng);
-			return bkng;
+			this->bookings[booking_no] = new booking(type, st, gst, dates);
+			return booking_no++;
 		}
 	}
 
-	return nullptr;
+	return -1;
 }
 
-void receptionist::cancel_booking(booking *bkng) {
+void receptionist::cancel_booking(int bkng_no) {
 	room *required_room;
+	if(bookings.find(bkng_no) == bookings.end()) {
+		return;
+	}
+
+	booking *bkng = bookings[bkng_no];
+
 	if(bkng->type == room_type::R_STANDARD) {
 		required_room = this->p_standard_room;
 	} else if(bkng->type == room_type::R_DELUXE) {
@@ -86,6 +89,6 @@ void receptionist::cancel_booking(booking *bkng) {
 	}
 
 	required_room->mark_available(bkng->p_room, bkng->dates);
-	this->bookings.erase(std::find(this->bookings.begin(), this->bookings.end(), bkng));
+	this->bookings.erase(bkng_no);
 	delete bkng;
 }
