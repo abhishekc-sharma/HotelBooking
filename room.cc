@@ -13,7 +13,7 @@ bool room::check_available(room_state *st, std::pair<int, int> dates) {
 	}
 
 	for(int i = dates.first; is_available && i <= dates.second; i++) {
-		is_available = is_available && st->availability.test(i);
+		is_available = is_available && !st->availability.test(i);
 	}
 
 	return is_available;
@@ -30,4 +30,3 @@ void room::mark_available(room_state *st, std::pair<int, int> dates) {
 		st->availability.reset(i);
 	}
 }
-

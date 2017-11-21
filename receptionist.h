@@ -6,6 +6,7 @@
 #include <map>
 #include "room.h"
 #include "room_state.h"
+#include "sqlite3.h"
 #include <string>
 #include <vector>
 
@@ -15,13 +16,13 @@ class receptionist {
 public:
 	enum class room_type {R_STANDARD, R_DELUXE, R_SUITE};
 	static receptionist *get_instance();
-	booking *make_booking(guest *gst, std::pair<int, int> dates, room_type type);
-	void cancel_booking(booking *bkng);
+	int make_booking(guest *gst, std::pair<int, int> dates, room_type type);
+	void cancel_booking(int bkng);
 private:
 	receptionist();
 	static receptionist *ptr;
-	time_t last_reference_time;
-	std::vector<booking *> bookings;
+	std::map<int, booking *> bookings;
+	int booking_no;
 	room *p_standard_room;
 	room *p_suite_room;
 	room *p_deluxe_room;
